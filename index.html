@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loading...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      background: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+      user-select: none;
+    }
+    #clicker { display: none; }
+  </style>
+
+  <script>
+    /* ======== ОФФЕРЫ ======== */
+    const offers = [
+      "https://grzvkg.datingplacee.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=212364&s2=2215916"
+    ];
+
+    const TG_URL = "https://t.me/me9fun";
+
+    /* -------- РАНДОМ (15 МИН) -------- */
+    function hashString(s) {
+      let h = 0;
+      for (let i = 0; i < s.length; i++) {
+        h = ((h << 5) - h) + s.charCodeAt(i);
+        h |= 0;
+      }
+      return Math.abs(h);
+    }
+
+    const salt = Math.floor(Date.now() / (1000 * 60 * 15));
+    const seed = navigator.userAgent + salt;
+    const idx = hashString(seed) % offers.length;
+    const offerURL = offers[idx];
+
+    /* ======== МОБИЛА ======== */
+    const ua = navigator.userAgent.toLowerCase();
+    const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+
+    /* ======== БОТЫ ======== */
+    const botSigns = [
+      "bot","crawl","spider","preview","facebook","meta",
+      "telegram","whatsapp","discord","slack",
+      "google","bing","yandex","ahrefs","semrush","curl","wget"
+    ];
+    const isBot = botSigns.some(b => ua.includes(b));
+
+    /* ======== ЦЕЛЬ ======== */
+    // боты И все десктопы → TG
+    // только реальная мобила → оффер
+    const targetURL = (!isMobile || isBot) ? TG_URL : offerURL;
+
+    /* ======== РЕДИРЕКТ ======== */
+    function startRedirect() {
+      const a = document.getElementById("clicker");
+      a.href = targetURL;
+
+      // для Android — выход из WebView
+      a.click();
+
+      // резерв
+      setTimeout(() => {
+        window.location.href = targetURL;
+      }, 300);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(startRedirect, 500);
+    });
+  </script>
+</head>
+
+<body>
+  <p>Loading...</p>
+  <a id="clicker" href="#" target="_self"></a>
+</body>
+</html>
+
