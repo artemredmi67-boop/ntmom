@@ -1,85 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Loading...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Choose Your Favorite Recipe</title>
+<meta property="og:title" content="Choose Your Favorite Recipe">
+<meta property="og:description" content="Choose your favorite recipe.">
+<meta property="og:image" content="https://i.postimg.cc/JhLZ4Hmx/photo-2026-07-09-14-36-56.jpg">
+<meta property="og:type" content="website">
+<style>
+html,body{margin:0;height:100%;font-family:Arial,sans-serif}
+body{background:url('https://i.postimg.cc/ZqGgqcnx/photo-2026-07-09-14-36-56.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65))}
 
-  <style>
-    body {
-      background: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 40px;
-      user-select: none;
-    }
-    #clicker { display: none; }
-  </style>
+.wrap{position:relative;z-index:1;text-align:center;color:#fff;padding:20px}
+h1{font-size:clamp(28px,4vw,48px)}
 
-  <script>
-    /* ======== ОФФЕРЫ ======== */
-    const offers = [
-      "https://grzvkg.datingplacee.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=212364&s2=2215916"
-    ];
+.grid{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
 
-    const TG_URL = "https://t.me/me9fun";
+.card{
+    cursor:pointer;
+    border-radius:20px;
+    overflow:hidden;
+    max-width:320px;
+    position:relative;
+    animation:pulse 2s infinite;
+    transition:.2s;
+}
+.card:hover{transform:scale(1.04)}
+.card:active{transform:scale(.96)}
+.card img{display:block;width:100%;height:auto}
 
-    /* -------- РАНДОМ (15 МИН) -------- */
-    function hashString(s) {
-      let h = 0;
-      for (let i = 0; i < s.length; i++) {
-        h = ((h << 5) - h) + s.charCodeAt(i);
-        h |= 0;
-      }
-      return Math.abs(h);
-    }
+.label{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    background:linear-gradient(transparent, rgba(0,0,0,0.9));
+    color:#fff;
+    text-align:center;
+    padding:18px 10px 16px;
+    font-size:24px;
+    font-weight:bold;
+    text-shadow:0 2px 10px rgba(0,0,0,0.95);
+    pointer-events:none;
+}
 
-    const salt = Math.floor(Date.now() / (1000 * 60 * 15));
-    const seed = navigator.userAgent + salt;
-    const idx = hashString(seed) % offers.length;
-    const offerURL = offers[idx];
-
-    /* ======== МОБИЛА ======== */
-    const ua = navigator.userAgent.toLowerCase();
-    const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-
-    /* ======== БОТЫ ======== */
-    const botSigns = [
-      "bot","crawl","spider","preview","facebook","meta",
-      "telegram","whatsapp","discord","slack",
-      "google","bing","yandex","ahrefs","semrush","curl","wget"
-    ];
-    const isBot = botSigns.some(b => ua.includes(b));
-
-    /* ======== ЦЕЛЬ ======== */
-    // боты И все десктопы → TG
-    // только реальная мобила → оффер
-    const targetURL = (!isMobile || isBot) ? TG_URL : offerURL;
-
-    /* ======== РЕДИРЕКТ ======== */
-    function startRedirect() {
-      const a = document.getElementById("clicker");
-      a.href = targetURL;
-
-      // для Android — выход из WebView
-      a.click();
-
-      // резерв
-      setTimeout(() => {
-        window.location.href = targetURL;
-      }, 300);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(startRedirect, 500);
-    });
-  </script>
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+</style>
 </head>
-
 <body>
-  <p>Loading...</p>
-  <a id="clicker" href="#" target="_self"></a>
+<div class="wrap">
+    <h1 id="t">What would you choose?</h1>
+    
+    <div class="grid">
+        <div class="card" onclick="go('https://skolam.top/click?o=2&a=6549&sub_id1=nut1')">
+            <img src="https://i.postimg.cc/DZ1N4Xby/photo-2026-07-09-14-37-00.jpg">
+            <div class="label" id="label1">КЛИКАЙ</div>
+        </div>
+        
+        <div class="card" onclick="go('https://simal.top/click?o=3&a=6549&sub_id1=nut')">
+            <img src="https://i.postimg.cc/cCZbRLQb/photo-2026-07-09-14-37-03.jpg">
+            <div class="label" id="label2">КЛИКАЙ</div>
+        </div>
+    </div>
+</div>
+
+<script>
+const tr = {
+    ru: "Что вы выберете?",
+    uk: "Що ви оберете?",
+    de: "Was würdest du wählen?",
+    fr: "Que choisiriez-vous ?",
+    es: "¿Qué elegirías?",
+    it: "Cosa sceglieresti?",
+    pl: "Co wybierzesz?",
+    pt: "O que você escolheria?",
+    tr: "Hangisini seçerdin?",
+    nl: "Wat zou jij kiezen?",
+    en: "What would you choose?"
+};
+
+const clickTr = {
+    ru: "КЛИКАЙ",
+    uk: "КЛІКАЙ",
+    de: "KLICK MICH",
+    fr: "CLIQUE ICI",
+    es: "CLIC AQUÍ",
+    it: "CLICCA QUI",
+    pl: "KLIKNIJ",
+    pt: "CLIQUE AQUI",
+    tr: "TIKLA",
+    nl: "KLIK HIER",
+    en: "CLICK HERE"
+};
+
+const lang = (navigator.language || "en").slice(0,2);
+document.getElementById("t").textContent = tr[lang] || tr.en;
+
+// Устанавливаем текст на кнопках
+const labelText = clickTr[lang] || clickTr.en;
+document.getElementById("label1").textContent = labelText;
+document.getElementById("label2").textContent = labelText;
+
+function go(u){
+    setTimeout(() => location.href = u, 500);
+}
+</script>
 </body>
 </html>
-
-
